@@ -21,12 +21,12 @@ module.exports = {
       colors: {
         nuxt: {
           gray: '#2F495E',
-          lightgreen: '#00C58E',
-          green: '#108775'
+          lightgreen: '#89CB27',
+          green: '#689F05'
         },
         primary: {
-          base: '#00C58E',
-          light: '#00E0A1',
+          base: '#689F05',
+          light: '#2F495E',
           dark: '#07A377'
         },
         light: {
@@ -79,17 +79,43 @@ module.exports = {
     width: ['responsive', 'after'],
     borderWidth: ['responsive', 'after'],
     borderRadius: ['responsive', 'after'],
-    borderColor: ['responsive', 'hover', 'focus', 'dark', 'light', 'after', 'light:after', 'dark:after'],
-    backgroundColor: ['responsive', 'hover', 'focus', 'dark', 'light', 'dark:hover', 'light:hover'],
-    textColor: ['responsive', 'hover', 'focus', 'group-hover', 'dark', 'light', 'dark:hover', 'light:hover']
+    borderColor: [
+      'responsive',
+      'hover',
+      'focus',
+      'dark',
+      'light',
+      'after',
+      'light:after',
+      'dark:after'
+    ],
+    backgroundColor: [
+      'responsive',
+      'hover',
+      'focus',
+      'dark',
+      'light',
+      'dark:hover',
+      'light:hover'
+    ],
+    textColor: [
+      'responsive',
+      'hover',
+      'focus',
+      'group-hover',
+      'dark',
+      'light',
+      'dark:hover',
+      'light:hover'
+    ]
   },
   corePlugins: {
     container: false
   },
   plugins: [
-    plugin(function ({ addVariant, theme, e, prefix, config }) {
+    plugin(function({ addVariant, theme, e, prefix, config }) {
       const colorModeVariants = ['light', 'dark']
-      colorModeVariants.forEach((mode) => {
+      colorModeVariants.forEach(mode => {
         addVariant(mode, ({ modifySelectors, separator }) => {
           modifySelectors(({ className }) => {
             return `.${mode}-mode .${e(`${mode}${separator}${className}`)}`
@@ -97,7 +123,7 @@ module.exports = {
         })
       })
       const pseudoVariants = ['after', 'before']
-      pseudoVariants.forEach((pseudo) => {
+      pseudoVariants.forEach(pseudo => {
         addVariant(pseudo, ({ modifySelectors, separator }) => {
           modifySelectors(({ className }) => {
             return `.${e(`${pseudo}${separator}${className}`)}::${pseudo}`
@@ -105,22 +131,26 @@ module.exports = {
         })
       })
       // generate chained color mode and pseudo variants
-      colorModeVariants.forEach((mode) => {
-        pseudoVariants.forEach((pseudo) => {
+      colorModeVariants.forEach(mode => {
+        pseudoVariants.forEach(pseudo => {
           addVariant(`${mode}:${pseudo}`, ({ modifySelectors, separator }) => {
             modifySelectors(({ className }) => {
-              return `.${mode}-mode .${e(`${mode}${separator}${pseudo}${separator}${className}`)}::${pseudo}`
+              return `.${mode}-mode .${e(
+                `${mode}${separator}${pseudo}${separator}${className}`
+              )}::${pseudo}`
             })
           })
         })
       })
       // states for color modes
       const states = ['hover']
-      colorModeVariants.forEach((mode) => {
-        states.forEach((state) => {
+      colorModeVariants.forEach(mode => {
+        states.forEach(state => {
           addVariant(`${mode}:${state}`, ({ modifySelectors, separator }) => {
             modifySelectors(({ className }) => {
-              return `.${mode}-mode .${e(`${mode}${separator}${state}${separator}${className}`)}:${state}`
+              return `.${mode}-mode .${e(
+                `${mode}${separator}${state}${separator}${className}`
+              )}:${state}`
             })
           })
         })

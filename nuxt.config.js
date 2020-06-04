@@ -12,17 +12,26 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'preconnect', href: 'https://www.google-analytics.com' },
-      { rel: 'stylesheet', type: 'text/css', href: 'https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css' }
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: 'https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css'
+      }
     ],
     script: [
-      { src: 'https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js', async: true, defer: true }
+      {
+        src: 'https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js',
+        async: true,
+        defer: true
+      }
     ],
     bodyAttrs: {
-      class: ['font-sans font-medium bg-light-surface dark:bg-dark-surface text-light-onSurfacePrimary dark:text-dark-onSurfacePrimary transition-colors duration-300 ease-linear ']
+      class: [
+        'font-sans font-medium bg-light-surface dark:bg-dark-surface text-light-onSurfacePrimary dark:text-dark-onSurfacePrimary transition-colors duration-300 ease-linear '
+      ]
     }
   },
   buildModules: [
-    '@nuxtjs/eslint-module',
     // https://github.com/nuxt-community/color-mode-module
     '@nuxtjs/color-mode',
     // https://github.com/nuxt-community/netlify-files-module
@@ -62,7 +71,8 @@ export default {
   env: {
     DEPLOY_PRIME_URL: process.env.DEPLOY_PRIME_URL || false,
     URL: process.env.URL || false,
-    DOC_SEARCH_API_KEY: process.env.DOC_SEARCH_API_KEY || 'ff80fbf046ce827f64f06e16f82f1401',
+    DOC_SEARCH_API_KEY:
+      process.env.DOC_SEARCH_API_KEY || 'ff80fbf046ce827f64f06e16f82f1401',
     NUXT_API: process.env.NUXT_API || 'https://api.nuxtjs.com',
     LOCALE: locale
   },

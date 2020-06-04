@@ -1,14 +1,8 @@
 <template>
-  <div class="nui-media h-0 w-full overflow-hidden relative m-0 rounded bg-dark-surface">
-    <iframe
-      v-if="isIntersecting && src"
-      :src="src"
-      frameborder="0"
-      allowfullscreen
-      webkitallowfullscreen
-      mozallowfullscreen
-      title="Responsive video"
-    />
+  <div
+    class="nui-media h-0 w-full overflow-hidden relative m-0 rounded bg-dark-surface"
+  >
+    <img v-if="isIntersecting && src" :src="src" title="Litekart demo" />
     <span v-else>Loading video...</span>
   </div>
 </template>
