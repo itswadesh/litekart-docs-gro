@@ -115,7 +115,7 @@ export default {
   head() {
     return {
       title: 'Release Notes',
-      titleTemplate: '%s - Nuxt.js',
+      titleTemplate: '%s - Litekart',
       meta: [
         {
           hid: 'description',

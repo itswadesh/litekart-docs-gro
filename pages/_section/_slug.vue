@@ -143,7 +143,7 @@ export default {
   head() {
     return {
       title: this.page.attrs.title,
-      titleTemplate: '%s - NuxtJS',
+      titleTemplate: '%s - Litekart',
       meta: [
         {
           hid: 'description',

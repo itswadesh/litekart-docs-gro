@@ -18,13 +18,13 @@ export default {
         href: 'https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css'
       }
     ],
-    script: [
-      {
-        src: 'https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js',
-        async: true,
-        defer: true
-      }
-    ],
+    // script: [
+    //   {
+    //     src: 'https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js',
+    //     async: true,
+    //     defer: true
+    //   }
+    // ],
     bodyAttrs: {
       class: [
         'font-sans font-medium bg-light-surface dark:bg-dark-surface text-light-onSurfacePrimary dark:text-dark-onSurfacePrimary transition-colors duration-300 ease-linear '
@@ -43,7 +43,6 @@ export default {
     '@nuxtjs/svg',
     // https://github.com/Atinux/nuxt-tailwindcss/
     '@nuxtjs/tailwindcss',
-    // https://pwa.nuxtjs.org
     '@nuxtjs/pwa'
   ],
   modules: [

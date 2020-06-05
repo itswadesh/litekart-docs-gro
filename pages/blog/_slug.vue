@@ -1,11 +1,20 @@
 <template>
-  <div class="bg-light-elevatedSurface dark:bg-dark-elevatedSurface transition-colors duration-300 ease-linear">
+  <div
+    class="bg-light-elevatedSurface dark:bg-dark-elevatedSurface transition-colors duration-300 ease-linear"
+  >
     <div class="container lg:max-w-4xl mx-auto p-4 pb-8">
-      <div v-if="post.langFallback" class="p-4 mb-6 rounded bg-orange-200 dark:text-light-onSurfacePrimary">
-        ⚠️ You are looking at the english version of the page. Help us translate it <a :href="docLink" class="text-orange-600">here</a>.
+      <div
+        v-if="post.langFallback"
+        class="p-4 mb-6 rounded bg-orange-200 dark:text-light-onSurfacePrimary"
+      >
+        ⚠️ You are looking at the english version of the page. Help us translate
+        it <a :href="docLink" class="text-orange-600">here</a>.
       </div>
-      <NuxtLink :to="{ name: 'blog' }" class="inline-flex items-center dark:hover:text-nuxt-lightgreen light:hover:text-nuxt-lightgreen dark:text-dark-onSurfaceSecondary light:text-light-onSurfaceSecondary">
-        <ArrowLeftIcon class="h-5 mr-2"/>
+      <NuxtLink
+        :to="{ name: 'blog' }"
+        class="inline-flex items-center dark:hover:text-nuxt-lightgreen light:hover:text-nuxt-lightgreen dark:text-dark-onSurfaceSecondary light:text-light-onSurfaceSecondary"
+      >
+        <ArrowLeftIcon class="h-5 mr-2" />
         back to blog list
       </NuxtLink>
       <BlogpostItem :post="post" />
@@ -22,7 +31,7 @@ export default {
   components: {
     ArrowLeftIcon
   },
-  async asyncData ({ $docs, params, store, error }) {
+  async asyncData({ $docs, params, store, error }) {
     const slug = params.slug
     const path = `/${store.state.locale}/blog/${slug}`
     const data = {
@@ -31,14 +40,28 @@ export default {
     }
     try {
       const post = await $docs.get(path)
-      if (!post.title) { console.error(`[/${path}] ${store.state.lang.text.please_define_title}.`) } // eslint-disable-line no-console
-      if (!post.description) { console.error(`[/${path}] ${store.state.lang.text.please_define_description}.`) } // eslint-disable-line no-console
+      if (!post.title) {
+        console.error(
+          `[/${path}] ${store.state.lang.text.please_define_title}.`
+        )
+      } // eslint-disable-line no-console
+      if (!post.description) {
+        console.error(
+          `[/${path}] ${store.state.lang.text.please_define_description}.`
+        )
+      } // eslint-disable-line no-console
       data.post = post
     } catch (err) {
       if (!err.response || err.response.status !== 404) {
-        return error({ statusCode: 500, message: store.state.lang.text.an_error_occurred })
+        return error({
+          statusCode: 500,
+          message: store.state.lang.text.an_error_occurred
+        })
       }
-      return error({ statusCode: 404, message: store.state.lang.text.api_page_not_found })
+      return error({
+        statusCode: 404,
+        message: store.state.lang.text.api_page_not_found
+      })
     }
     return data
   },
@@ -49,7 +72,7 @@ export default {
       isTest: state => state.isTest,
       isProd: state => state.isProd
     }),
-    docLink () {
+    docLink() {
       let docLink = `https://github.com/nuxt/docs/blob/master/${this.post.path}`
       if (this.$store.state.locale === 'ru') {
         docLink = `https://github.com/translation-gang/ru.docs.nuxtjs/blob/translation-ru/${this.post.path}`
@@ -58,7 +81,7 @@ export default {
       }
       return docLink
     },
-    socialImage () {
+    socialImage() {
       const image = this.post.imgUrl ? this.post.imgUrl : 'nuxt-card.png'
       if (this.isTest || this.isDev) {
         return `${this.host}/${image}`
@@ -67,23 +90,51 @@ export default {
       }
     }
   },
-  head () {
+  head() {
     return {
       title: this.post.title,
-      titleTemplate: '%s - NuxtJS',
+      titleTemplate: '%s - Litekart',
       meta: [
-        { hid: 'description', name: 'description', content: this.post.description },
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.post.description
+        },
         // Open Graph
         { hid: 'og:title', property: 'og:title', content: this.post.title },
-        { hid: 'og:description', property: 'og:description', content: this.post.description },
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: this.post.description
+        },
         { hid: 'og:type', property: 'og:type', content: 'article' },
-        { hid: 'og:url', property: 'og:url', content: `https://nuxtjs.org/blog/${this.post.slug}` },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://docs.litekart.in/blog/${this.post.slug}`
+        },
         { hid: 'og:image', property: 'og:image', content: this.socialImage },
         // Twitter Card
-        { hid: 'twitter:title', name: 'twitter:title', content: this.post.title },
-        { hid: 'twitter:description', name: 'twitter:description', content: this.post.description },
-        { hid: 'twitter:image', name: 'twitter:image', content: this.socialImage },
-        { hid: 'twitter:image:', name: 'twitter:image:alt', content: this.post.imgUrl ? 'Blog post image' : 'NuxtJS' }
+        {
+          hid: 'twitter:title',
+          name: 'twitter:title',
+          content: this.post.title
+        },
+        {
+          hid: 'twitter:description',
+          name: 'twitter:description',
+          content: this.post.description
+        },
+        {
+          hid: 'twitter:image',
+          name: 'twitter:image',
+          content: this.socialImage
+        },
+        {
+          hid: 'twitter:image:',
+          name: 'twitter:image:alt',
+          content: this.post.imgUrl ? 'Blog post image' : 'NuxtJS'
+        }
       ]
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <footer class="z-10 relative pb-16 lg:pb-0 lg:block">
-    <NewsletterForm />
+    <!-- <NewsletterForm /> -->
     <div
       class="bg-light-elevatedSurface dark:bg-dark-elevatedSurface shadow-nuxt transition-colors duration-300 ease-linear"
     >
@@ -70,7 +70,7 @@
             </a>
           </div>
           <div class="flex-1 text-right">
-            <AppSelect
+            <!-- <AppSelect
               v-model="currentLang"
               :options="locales"
               label="Select language"
@@ -78,7 +78,7 @@
               <template v-slot:icon>
                 <GlobeIcon />
               </template>
-            </AppSelect>
+            </AppSelect> -->
           </div>
         </div>
       </div>
@@ -102,20 +102,20 @@ export default {
       links: {
         discover: [
           // { key: 'Design resources', to: '/design' },
-          // { key: 'A worldwide team', to: '/team' },
-          { key: 'Blog', to: 'https://www.frontendfun.com/blog' }
+          { key: 'Blog', href: 'https://www.frontendfun.com/blog' },
+          { key: 'Grocery Shop Demo', href: 'https://grocery.litekart.in' }
         ],
         follow: [
           {
             key: 'GitHub',
             href: 'https://github.com/itswadesh/sapper-ecommerce'
           },
-          { key: 'Twitter', href: 'https://twitter.com/itswadesh' },
-          { key: 'Discord', href: 'https://discord.litekart.in' }
+          { key: 'Twitter', href: 'https://twitter.com/itswadesh' }
+          // { key: 'Discord', href: 'https://discord.litekart.in' }
         ],
         support: [
           // { key: 'Sponsor NuxtJS', to: '/sponsor-nuxtjs' },
-          { key: 'Grocery Shop Demo', to: 'https://grocery.litekart.in' }
+          { key: 'Report Issue', href: 'https://github.com/itswadesh/support' }
           // { key: 'NuxtJS Consulting', to: '/support' }
         ]
       }
