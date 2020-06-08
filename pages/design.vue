@@ -30,10 +30,10 @@
               Light theme
             </h2>
             <figure class="rounded hover:bg-gray-200">
-              <img src="/logos/nuxt.svg" alt="nuxt-logo" />
+              <img src="/logos/litekart.svg" alt="nuxt-logo" />
               <figcaption>
-                <a href="/logos/nuxt.svg" target="_blank" rel="noopener"
-                  >nuxt.svg</a
+                <a href="/logos/litekart.svg" target="_blank" rel="noopener"
+                  >litekart.svg</a
                 >
                 /
                 <a href="/logos/nuxt-square.svg" target="_blank" rel="noopener"
