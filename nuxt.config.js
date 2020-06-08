@@ -1,4 +1,4 @@
-const locale = process.env.NUXT_LOCALE || 'en'
+const locale = 'en'
 
 export default {
   target: 'static',
@@ -55,6 +55,7 @@ export default {
   colorMode: {
     preference: 'light' // disable system
   },
+  telemetry: false,
   http: {
     proxy: true
   },

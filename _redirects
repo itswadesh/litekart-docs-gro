@@ -1,5 +1,5 @@
 # Redirect default Netlify subdomain to primary domain
-https://nuxt.netlify.com/* https://litekart.in/:splat 301!
+https://litekart.netlify.com/* https://litekart.in/:splat 301!
 # Redirect www.litekart.in to litekart.in
 https://www.litekart.in/* https://litekart.in/:splat 301!
 # Redirect /logos to /design

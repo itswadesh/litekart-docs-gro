@@ -112,12 +112,7 @@ export default {
   },
   computed: {
     docLink() {
-      let docLink = `https://github.com/nuxt/docs/blob/master${this.path}.md`
-      if (this.$store.state.locale === 'ru') {
-        docLink = `https://github.com/translation-gang/ru.docs.nuxtjs/blob/translation-ru${this.path}.md`
-      } else if (this.$store.state.locale === 'cn') {
-        docLink = `https://github.com/o2team/i18n-cn-nuxtjs-docs/blob/dev${this.path}.md`
-      }
+      let docLink = `https://github.com/itswadesh/litekart-docs-md/blob/master${this.path}.md`
       return docLink
     },
     codeSandBox() {

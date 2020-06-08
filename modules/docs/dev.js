@@ -2,15 +2,15 @@ const { join } = require('path')
 const DocsServer = require('./server')
 
 async function main() {
-	const docsServer = new DocsServer({
+  const docsServer = new DocsServer({
     port: 3001,
     docsDir: join(__dirname, '..', '..', 'docs'),
-    repo: 'nuxt/docs',
+    repo: 'itswadesh/docs',
     watch: true
   })
-	await docsServer.cloneRepo()
-	await docsServer.init()
-	await docsServer.listen()
+  await docsServer.cloneRepo()
+  await docsServer.init()
+  await docsServer.listen()
 }
 
 main()

@@ -2,7 +2,7 @@ const { join } = require('path')
 const logger = require('consola').withScope('docs/module')
 const DocsServer = require('./server')
 
-module.exports = async function (moduleOptions) {
+module.exports = async function(moduleOptions) {
   const isDev = this.options.dev
   const isBuild = this.options._build
   const runServer = isDev || !isBuild
@@ -10,7 +10,7 @@ module.exports = async function (moduleOptions) {
   const options = {
     port: 3001,
     docsDir: join(isDev ? this.options.srcDir : this.options.buildDir, 'docs'),
-    repo: 'nuxt/docs',
+    repo: 'itswadesh/litekart-docs-md',
     watch: isDev,
     ...this.options.docs,
     ...moduleOptions

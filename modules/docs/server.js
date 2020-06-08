@@ -14,7 +14,7 @@ const readFile = promisify(fs.readFile)
 const readingTime = require('reading-time')
 
 class DocsServer {
-  constructor (options) {
+  constructor(options) {
     this.docsDir = options.docsDir || process.cwd()
     this.defaultLang = options.defaultLang || 'en'
     this.port = options.port || 3001
@@ -32,11 +32,8 @@ class DocsServer {
   }
 
   // Initialize
-  async init () {
-    await Promise.all([
-      this.getFiles(),
-      this.getReleases()
-    ])
+  async init() {
+    await Promise.all([this.getFiles(), this.getReleases()])
 
     if (this.watch) {
       this.watchFiles(this.docsDir)
@@ -44,7 +41,7 @@ class DocsServer {
   }
 
   // Start server
-  async listen () {
+  async listen() {
     if (this.server) {
       return
     }
@@ -71,7 +68,7 @@ class DocsServer {
   }
 
   // Stop server
-  async close () {
+  async close() {
     if (!this.server) {
       return
     }
@@ -82,24 +79,29 @@ class DocsServer {
   }
 
   // Fetch releases
-  async getReleases () {
+  async getReleases() {
     logger.info('Fetching releases...')
     const options = {}
     if (process.env.GITHUB_TOKEN) {
-      options.headers = { 'Authorization': `token ${process.env.GITHUB_TOKEN}` }
+      options.headers = { Authorization: `token ${process.env.GITHUB_TOKEN}` }
     }
-    try {
-      const data = await fetch('https://api.github.com/repos/nuxt/nuxt.js/releases', options).then(res => res.json())
-      this.releases = data.filter(r => !r.draft).map((release) => {
-        return {
-          name: release.name || release.tag_name,
-          date: release.published_at,
-          body: marked(release.body)
-        }
-      })
-    } catch (e) {
-      logger.error('Could not fetch nuxt.js release notes:', e.message)
-    }
+    // try {
+    //   const data = await fetch(
+    //     'https://api.github.com/repos/nuxt/nuxt.js/releases',
+    //     options
+    //   ).then(res => res.json())
+    //   this.releases = data
+    //     .filter(r => !r.draft)
+    //     .map(release => {
+    //       return {
+    //         name: release.name || release.tag_name,
+    //         date: release.published_at,
+    //         body: marked(release.body)
+    //       }
+    //     })
+    // } catch (e) {
+    //   logger.error('Could not fetch nuxt.js release notes:', e.message)
+    // }
     const getMajorVersion = r => r.name && Number(r.name.substring(1, 2))
     this.releases.sort((a, b) => {
       const aMajorVersion = getMajorVersion(a)
@@ -112,7 +114,7 @@ class DocsServer {
   }
 
   // Fetch doc and menu files
-  async getFiles () {
+  async getFiles() {
     logger.info('Building files...')
 
     // Construct the doc menu
@@ -132,13 +134,12 @@ class DocsServer {
   }
 
   // Get all blog posts
-  async getBlogPostFiles () {
+  async getBlogPostFiles() {
     // en lang
     const enBlogPaths = await this.glob('en/blog/*.md')
-    this.blogPostFiles.en =
-      await Promise.all(
-        enBlogPaths.map((path) => this.getBlogPost(path))
-      )
+    this.blogPostFiles.en = await Promise.all(
+      enBlogPaths.map(path => this.getBlogPost(path))
+    )
     // sort by date descending
     this.blogPostFiles.en.sort((a, b) => b.date - a.date)
     this.addNavigationLinks(this.blogPostFiles.en)
@@ -156,7 +157,7 @@ class DocsServer {
           .then(otherLangPost => {
             this.blogPostFiles[lang].push(otherLangPost)
           })
-          .catch((err) => {
+          .catch(err => {
             // If post does not exists in other language
             this.blogPostFiles[lang].push({
               ...post,
@@ -168,7 +169,9 @@ class DocsServer {
       const currentLangBlogPaths = await this.glob(`${lang}/blog/*.md`)
       for (const path of currentLangBlogPaths) {
         // Is this path already in the list of posts?
-        const postFound = this.blogPostFiles[lang].find((post) => post.path === path)
+        const postFound = this.blogPostFiles[lang].find(
+          post => post.path === path
+        )
         // If post not found
         if (!postFound) {
           const post = await this.getBlogPost(path)
@@ -185,7 +188,7 @@ class DocsServer {
     return this.blogPostFiles
   }
 
-  async getBlogPost (path, parseOptions) {
+  async getBlogPost(path, parseOptions) {
     let blogPost = {}
 
     // Read file
@@ -199,19 +202,20 @@ class DocsServer {
       slug: this.slugify(path),
       readtime: readingTime(body),
       ...file.attributes,
-      body,
+      body
     }
     return blogPost
   }
 
   // Get all docs files
-  async getDocFiles () {
+  async getDocFiles() {
     const docPaths = await this.glob('*/!(blog)/*.md')
+    console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzz', docPaths)
     await Promise.all(docPaths.map(path => this.getDocFile(path)))
   }
 
   // Get doc file and sent back it's attributes and html body
-  async getDocFile (path, parseOptions, useCache = true) {
+  async getDocFile(path, parseOptions, useCache = true) {
     if (this.docsFiles[path] && useCache) {
       return this.docsFiles[path]
     }
@@ -231,10 +235,10 @@ class DocsServer {
   }
 
   // get prev and next links
-  addNavigationLinks (posts) {
+  addNavigationLinks(posts) {
     posts.forEach((post, i) => {
-      const previousPost = posts[i-1]
-      const nextPost = posts[i+1]
+      const previousPost = posts[i - 1]
+      const nextPost = posts[i + 1]
       post.links = {
         previous: {
           title: previousPost ? previousPost.title : null,
@@ -249,65 +253,71 @@ class DocsServer {
   }
 
   // Get menu files and create the doc menu
-  async getMenu () {
+  async getMenu() {
     logger.info('Building menu...')
 
     const menuPaths = await this.glob('*/**/menu.json')
 
     const menu = {}
 
-    await Promise.all(menuPaths.map(async (path) => {
-      const keys = path.split('/').slice(0, -1)
-      const lastKey = keys.pop()
+    await Promise.all(
+      menuPaths.map(async path => {
+        const keys = path.split('/').slice(0, -1)
+        const lastKey = keys.pop()
 
-      let pathMenu = menu
-      for (const key of keys) {
-        pathMenu[key] = pathMenu[key] || {}
-        pathMenu = pathMenu[key]
-      }
+        let pathMenu = menu
+        for (const key of keys) {
+          pathMenu[key] = pathMenu[key] || {}
+          pathMenu = pathMenu[key]
+        }
 
-      const fileContent = await readFile(resolve(this.docsDir, path), 'utf-8')
-      pathMenu[lastKey] = JSON.parse(fileContent)
-    }))
+        const fileContent = await readFile(resolve(this.docsDir, path), 'utf-8')
+        pathMenu[lastKey] = JSON.parse(fileContent)
+      })
+    )
 
     this.menu = menu
   }
 
   // Get lang files and create the lang object
-  async getLanguages () {
+  async getLanguages() {
     logger.info('Building languages...')
 
     const langPaths = await this.glob('*/lang.json')
 
     const langs = {}
 
-    await Promise.all(langPaths.map(async (path) => {
-      const lang = path.split('/')[0]
-      const fileContent = await readFile(resolve(this.docsDir, path), 'utf-8')
-      langs[lang] = JSON.parse(fileContent)
-    }))
+    await Promise.all(
+      langPaths.map(async path => {
+        const lang = path.split('/')[0]
+        const fileContent = await readFile(resolve(this.docsDir, path), 'utf-8')
+        langs[lang] = JSON.parse(fileContent)
+      })
+    )
 
     this.langs = langs
   }
 
   // Get homepage files and create the homepage object
-  async getHomepage () {
+  async getHomepage() {
     logger.info('Building homepage...')
 
     const homepagePaths = await this.glob('*/homepage/*.md')
 
     const homepage = {}
 
-    await Promise.all(homepagePaths.map(async (path) => {
-      const lang = path.split('/')[0]
-      // const homepage = path.split('/')[1]
-      const part = path.split('/')[2].replace(/.md$/, '')
-      const file = await this.getDocFile(path, { renderer: partialRenderer })
-      if (!homepage[lang]) {
-        homepage[lang] = {}
-      }
-      homepage[lang][part] = file
-    }))
+    await Promise.all(
+      homepagePaths.map(async path => {
+        const lang = path.split('/')[0]
+        // const homepage = path.split('/')[1]
+        const part = path.split('/')[2].replace(/.md$/, '')
+        const file = await this.getDocFile(path, { renderer: partialRenderer })
+        if (!homepage[lang]) {
+          homepage[lang] = {}
+        }
+        homepage[lang][part] = file
+      })
+    )
 
     // Copy fallback resource from defaultLang: en
     // Target check uses this.langs, */lang.json
@@ -330,7 +340,7 @@ class DocsServer {
   }
 
   // watch file changes
-  watchFiles (cwd) {
+  watchFiles(cwd) {
     logger.info('Watching files changes...')
 
     const options = {
@@ -340,38 +350,43 @@ class DocsServer {
     }
 
     // Doc Pages
-    chokidar.watch('*/[!blog]**/*.md', options)
+    chokidar
+      .watch('*/[!blog]**/*.md', options)
       .on('add', path => this.getDocFile(path, null, false))
       .on('change', path => this.getDocFile(path, null, false))
       .on('unlink', path => delete this.docsFiles[path])
 
     // Blog
-    chokidar.watch('*/blog/*.md', options)
+    chokidar
+      .watch('*/blog/*.md', options)
       .on('add', () => this.getBlogPostFiles())
       .on('change', () => this.getBlogPostFiles())
       .on('unlink', () => this.getBlogPostFiles())
 
     // Menu
-    chokidar.watch('*/**/menu.json', options)
+    chokidar
+      .watch('*/**/menu.json', options)
       .on('add', () => this.getMenu())
       .on('change', () => this.getMenu())
       .on('unlink', () => this.getMenu())
 
     // Lang
-    chokidar.watch('*/lang.json', options)
+    chokidar
+      .watch('*/lang.json', options)
       .on('add', () => this.getLanguages())
       .on('change', () => this.getLanguages())
       .on('unlink', () => this.getLanguages())
 
     // Homepage
-    chokidar.watch('*/homepage/*.md', options)
+    chokidar
+      .watch('*/homepage/*.md', options)
       .on('add', () => this.getHomepage())
       .on('change', () => this.getHomepage())
       .on('unlink', () => this.getHomepage())
   }
 
   // Server handle request method
-  get (url) {
+  get(url) {
     // Releases
     if (url === '/releases') {
       return this.releases
@@ -430,11 +445,15 @@ class DocsServer {
     const prettierUrl = url.slice(1).replace(/\/$/, '') // removing first and last slash
     const splittedUrl = prettierUrl.split('/')
     if (splittedUrl[1] === 'blog') {
-      if (splittedUrl.length === 2) { // blog directory
+      if (splittedUrl.length === 2) {
+        // blog directory
         return this.blogPostFiles[splittedUrl[0]]
-      } else { // blog/_slug
+      } else {
+        // blog/_slug
         const slug = splittedUrl[2]
-        return this.blogPostFiles[splittedUrl[0]].find(post => post.slug === slug)
+        return this.blogPostFiles[splittedUrl[0]].find(
+          post => post.slug === slug
+        )
       }
     }
 
@@ -459,7 +478,7 @@ class DocsServer {
   }
 
   // Glob util
-  glob (pattern) {
+  glob(pattern) {
     return glob(pattern, {
       cwd: this.docsDir,
       ignore: 'node_modules/**/*',
@@ -468,7 +487,7 @@ class DocsServer {
   }
 
   // Clone repository
-  async cloneRepo () {
+  async cloneRepo() {
     if (fs.existsSync(this.docsDir)) {
       return
     }
@@ -477,8 +496,11 @@ class DocsServer {
   }
 
   // slugify path
-  slugify (path) {
-    return path.split('/').slice(-1)[0].replace(/\.md$/, '')
+  slugify(path) {
+    return path
+      .split('/')
+      .slice(-1)[0]
+      .replace(/\.md$/, '')
   }
 }
 

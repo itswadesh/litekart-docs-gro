@@ -73,12 +73,7 @@ export default {
       isProd: state => state.isProd
     }),
     docLink() {
-      let docLink = `https://github.com/nuxt/docs/blob/master/${this.post.path}`
-      if (this.$store.state.locale === 'ru') {
-        docLink = `https://github.com/translation-gang/ru.docs.nuxtjs/blob/translation-ru/${this.post.path}`
-      } else if (this.$store.state.locale === 'cn') {
-        docLink = `https://github.com/o2team/i18n-cn-nuxtjs-docs/blob/dev/${this.post.path}`
-      }
+      let docLink = `https://github.com/itswadesh/litekart-docs-md/blob/master/${this.post.path}`
       return docLink
     },
     socialImage() {
