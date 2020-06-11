@@ -77,7 +77,9 @@ export default {
       return docLink
     },
     socialImage() {
-      const image = this.post.imgUrl ? this.post.imgUrl : 'nuxt-card.png'
+      const image = this.post.imgUrl
+        ? this.post.imgUrl
+        : 'https://grocery.litekart.in/images/social/codecanyon-99.png'
       if (this.isTest || this.isDev) {
         return `${this.host}/${image}`
       } else {
