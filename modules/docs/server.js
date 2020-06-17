@@ -210,7 +210,6 @@ class DocsServer {
   // Get all docs files
   async getDocFiles() {
     const docPaths = await this.glob('*/!(blog)/*.md')
-    console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzz', docPaths)
     await Promise.all(docPaths.map(path => this.getDocFile(path)))
   }
 

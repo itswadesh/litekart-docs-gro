@@ -67,6 +67,7 @@ export default {
     const defaultSlugs = {
       guide: 'index',
       api: 'index',
+      videos: 'index',
       examples: 'hello-world',
       features: 'index',
       faq: 'external-resources'

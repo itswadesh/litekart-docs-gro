@@ -59,6 +59,7 @@ import GuideIcon from '@/assets/icons/books.svg?inline'
 import ApiIcon from '@/assets/icons/list.svg?inline'
 import FaqIcon from '@/assets/icons/faq.svg?inline'
 import ResourcesIcon from '@/assets/icons/resources.svg?inline'
+import VideosIcon from '@/assets/icons/resources.svg?inline'
 import BlogIcon from '@/assets/icons/blog.svg?inline'
 import FeaturesIcon from '@/assets/icons/blog.svg?inline'
 
@@ -69,6 +70,7 @@ export default {
     ApiIcon,
     FaqIcon,
     ResourcesIcon,
+    VideosIcon,
     BlogIcon,
     FeaturesIcon
   },

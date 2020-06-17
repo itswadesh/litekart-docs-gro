@@ -2,7 +2,7 @@
   <div>
     <HomeWelcome />
     <HomeWhy />
-    <!-- <HomeCompanies /> -->
+    <HomeCompanies />
     <HomeModes />
     <!-- <home-targets/>
     <home-features/> -->
